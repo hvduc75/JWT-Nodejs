@@ -9,12 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Group.hasMany(models.User);
+      Group.belongsToMany(models.Role, { through: "Group_Role" });
     }
   }
   Group.init(
     {
       name: DataTypes.STRING,
-      description: DataTypes.STRING
+      description: DataTypes.STRING,
     },
     {
       sequelize,
