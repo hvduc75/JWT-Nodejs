@@ -1,4 +1,4 @@
-import * as loginRegisterService from "../service/loginRegisterService";
+import loginRegisterService from "../service/LoginRegisterService";
 
 const testApi = (req, res) => {
   return res.status(200).json({
@@ -16,12 +16,12 @@ const handleRegister = async (req, res) => {
         DT: "", //date
       });
     }
-    if(req.body.password && req.body.password.length < 4) {
+    if (req.body.password && req.body.password.length < 4) {
       return res.status(200).json({
         EM: "Your password must have more than 3 letters", // error message
         EC: "1", // error code
         DT: "", //date
-      })
+      });
     }
 
     // service: create user
@@ -41,7 +41,26 @@ const handleRegister = async (req, res) => {
   }
 };
 
+const handleLogin = async (req, res) => {
+  try {
+    let data = await loginRegisterService.handleUserLogin(req.body);
+    return res.status(200).json({
+      EM: data.EM, // error message
+      EC: data.EC, // error code
+      DT: data.DT, //data
+    });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      EM: "error from server", // error message
+      EC: "-1", // error code
+      DT: "", //date
+    });
+  }
+};
+
 module.exports = {
   testApi,
   handleRegister,
+  handleLogin,
 };
