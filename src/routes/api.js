@@ -1,9 +1,17 @@
 import express from "express";
 import apiController from "../controllers/apiController";
 import userController from "../controllers/userController";
-import groupController from "../controllers/groupController"
+import groupController from "../controllers/groupController";
 
 const router = express.Router();
+
+const testMiddleware = (req, res, next) => {
+  console.log("calling a middleware");
+  if (true) {
+    return res.send("reject middleware");
+  }
+  next();
+};
 
 const initApiRoutes = (app) => {
   //rest api

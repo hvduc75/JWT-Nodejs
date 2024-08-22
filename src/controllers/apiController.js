@@ -44,13 +44,15 @@ const handleRegister = async (req, res) => {
 const handleLogin = async (req, res) => {
   try {
     let data = await loginRegisterService.handleUserLogin(req.body);
+    // set cookie
+    res.cookie("jwt", data.DT.access_token, { httpOnly: true, maxAge: 60*60*1000 });
     return res.status(200).json({
       EM: data.EM, // error message
       EC: data.EC, // error code
       DT: data.DT, //data
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({
       EM: "error from server", // error message
       EC: "-1", // error code
